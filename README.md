@@ -55,12 +55,6 @@ This repository contains the **Bracu Tutor** system, an academic project develop
 5. **Access the system via browser**:
     http://127.0.0.1:5000/
 
-   
-## Deployment
-The project is deployed online and accessible at: **[Bracu Tutor Live](#)**
-
----
-
 ## User Manual
 
 ### Students can:
