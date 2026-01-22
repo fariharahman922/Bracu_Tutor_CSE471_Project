@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/course.css"> 
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="/course.html">COURSES</a></h1>
+        <ul>
+            <li><a href="/home1">HOME</a></li>             
+            <li><a href="/tutor">TUTORS</a></li>  
+            <li><a href="/dept">DEPARTMENTS</a></li>    
+            <li><a href="/profile">PROFILE</a></li>  
+            <li><a href="/booking">BOOKING</a></li>    
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <section class="courses-section">
+        <h2>Available Courses</h2>
+        <div class="course-list">
+            {% for course in course %}
+            <div class="course-item">
+                <h3>COURSE CODE: {{ course[0] }} <br>
+                    COURSE NAME: {{ course[1] }}</h3>
+                
+                <a href="{{ url_for('available_tutor', course_code=course[0]) }}">
+                    <button class="course-button">View Tutors</button>
+                </a>
+            </div>
+            {% else %}
+            <p>No courses available at the moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+    
+</body>
+</html>

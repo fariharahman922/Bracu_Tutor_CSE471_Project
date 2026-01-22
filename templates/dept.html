@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/dept.css"> 
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="#">BRACU TUTOR</a></h1>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+    <section class="container">
+        <!-- Loop through the departments and display them dynamically -->
+        {% for dept in departments %}
+            <div class="card">
+                <div class="card-image" id="{{ dept[0] }}" style="background-image: url('{{ dept[3] }}');"></div>
+                <h2>{{ dept[1] }}</h2>
+                <p>{{ dept[2] }}</p>
+                <button id="viewbtn"><a href="/view_course/id/{{dept[0]}}">View Course</a></button>
+            </div>
+          {% else %}
+            <p>No departments available at the moment.</p>
+        {% endfor %}
+    </section>
+</body>
+</html>

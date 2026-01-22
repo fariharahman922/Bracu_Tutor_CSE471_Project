@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/view_booking.css"> 
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="/view_booking">Booking</a></h1>
+        <ul>
+            <li><a href="/tutor_home">HOME</a></li>              
+            <li><a href="/profile">PROFILE</a></li>  
+            <li><a href="/view_booking">BOOKING</a></li>    
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <section class="courses-section">
+        <h2>All Bookings</h2>
+        <div class="course-list">
+            {% for t in tutors %}
+            <div class="course-item">
+                <h3>{{ t.name }}</h3> 
+                <p>Department : {{ t.department }}</p> 
+                <p>Email : {{ t.email }}</p> 
+                <p>Booking date: {{ t.booking_date }}</p>
+                <p>Status: {{ t.status }}</p>
+
+                {% if t.status == "Pending" %}
+                <a href="{{ url_for('accept_booking', id=t.booking_id) }}">
+                    <button class="course-button">Accept</button>
+                </a>
+                {% endif %}
+                {% if t.status == "Accepted" %}
+                <a href="{{ url_for('cancel_booking', id=t.booking_id) }}">
+                    <button class="course-button">Cancel Booking</button>
+                </a>
+                <button class="course-button" onclick="openChat({{ t.booking_id }}, '{{ t.name }}')">Chat</button>
+                {% endif %}
+                {% if t.status == "Paid" %}
+                <button class="course-button" onclick="openChat({{ t.booking_id }}, '{{ t.name }}')">Chat</button>
+                {% endif %}
+            </div>
+            {% else %}
+            <p>No Booking available at the moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Chat Box Template -->
+    <template id="chat-template">
+        <div class="chat-box" style="
+            position: fixed; bottom: 20px; right: 20px;
+            width: 320px; height: 420px;
+            border-radius: 12px; border: 1px solid #ddd;
+            background: #fdfdfd; display: flex; flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            font-family: Arial, sans-serif; overflow: hidden;">
+            
+            <!-- Header -->
+            <div class="chat-header" style="
+                background: linear-gradient(135deg, #4facfe, #00f2fe);
+                padding: 12px; font-weight: bold; font-size: 16px;
+                color: white; display: flex; justify-content: space-between; align-items: center;">
+                <span class="chat-title">Chat</span>
+                <span class="close-btn" style="cursor: pointer; font-size: 18px; font-weight: bold;">✖</span>
+            </div>
+            
+            <!-- Messages -->
+            <div class="chat-messages" style="flex: 1; overflow-y: auto; padding: 12px; font-size: 14px; background: #f7f9fc;"></div>
+            
+            <!-- Input -->
+            <div style="display: flex; border-top: 1px solid #ddd; background: #fff; padding: 8px;">
+                <input type="text" class="chat-input" placeholder="Type a message..." style="
+                    flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 14px;">
+                <button class="send-btn" style="
+                    margin-left: 8px; background: #4facfe; color: white; border: none; 
+                    padding: 10px 16px; border-radius: 50%; cursor: pointer; font-size: 14px;">➤</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+        var senderType = "tutor";
+        var openChats = {};
+
+        function openChat(bookingId, studentName){
+            if(openChats[bookingId]) {
+                openChats[bookingId].style.zIndex = Date.now();
+                return;
+            }
+
+            let template = document.getElementById("chat-template").content.cloneNode(true);
+            let chatBox = template.querySelector(".chat-box");
+            let headerTitle = chatBox.querySelector(".chat-title");
+            let messagesDiv = chatBox.querySelector(".chat-messages");
+            let input = chatBox.querySelector(".chat-input");
+            let sendBtn = chatBox.querySelector(".send-btn");
+            let closeBtn = chatBox.querySelector(".close-btn");
+
+            headerTitle.textContent = "Chat with " + studentName;
+
+            closeBtn.onclick = () => {
+                chatBox.remove();
+                delete openChats[bookingId];
+            };
+
+            sendBtn.onclick = () => {
+                let msg = input.value.trim();
+                if(!msg) return;
+                socket.emit("message", {booking_id: bookingId, sender_type: senderType, msg: msg});
+                input.value = "";
+            };
+
+            document.body.appendChild(chatBox);
+            openChats[bookingId] = chatBox;
+
+            // join the booking room
+            socket.emit("join", {booking_id: bookingId});
+
+            // load history
+            fetch(`/chat_history/${bookingId}`)
+            .then(res => res.json())
+            .then(data => {
+                messagesDiv.innerHTML = "";
+                data.messages.forEach(m => {
+                    appendMessage(messagesDiv, m.sender_type, m.message, m.sender_type === senderType);
+                });
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        function appendMessage(container, sender, msg, isSelf){
+            let align = isSelf ? "right" : "left";
+            let color = isSelf ? "#DCF8C6" : "#EAEAEA";
+            container.innerHTML += `<div style="text-align:${align}; margin:5px;">
+                <span style="background:${color}; padding:5px 10px; border-radius:10px; display:inline-block; max-width:80%;">
+                    ${msg}
+                </span>
+            </div>`;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        socket.on("new_message", function(data){
+            let {booking_id, sender_type, message} = data;
+            if(openChats[booking_id]){
+                let messagesDiv = openChats[booking_id].querySelector(".chat-messages");
+                appendMessage(messagesDiv, sender_type, message, sender_type === senderType);
+            }
+        });
+
+        // auto-join all tutor bookings
+        {% for t in tutors %}
+        socket.emit("join", {booking_id: {{ t.booking_id }} });
+        {% endfor %}
+    </script>
+</body>
+</html>

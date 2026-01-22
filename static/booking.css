@@ -1,0 +1,125 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/home.jpg'); 
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    height: 100vh; 
+    display: block;
+}
+
+
+.menu__bar{
+    background-color: black; display: flex;
+    align-items: center; justify-content: space-between; padding: 5px 5px;
+    position:fixed; width: 100%; top:0;
+}
+
+.logo a{
+    font-size: 30px; font-weight: 600; color: rgb(30, 131, 219);
+}
+
+.menu__bar ul{list-style: none; display: flex;}
+
+.menu__bar ul li {
+    padding: 15px 15px;
+}
+
+.menu__bar ul li a{
+    color: rgb(30, 131, 219); text-decoration: none; font-size: 20px; transition: all 0.3s;
+}
+
+.menu__bar ul li a:hover{ 
+    color: white
+}
+
+
+.tutors-section {
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.tutors-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: rgb(30, 131, 219);
+}
+
+
+.tutor-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+
+.tutor-item {
+    background-color: wheat;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tutor-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tutor-item h3 {
+    font-size: 22px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.tutor-item p {
+    font-size: 16px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.tutor-item p:last-child {
+    font-weight: bold;
+    color: rgb(30, 131, 219);
+}
+
+
+.tutor-list p {
+    font-size: 18px;
+    color: #777;
+}
+
+
+@media (max-width: 768px) {
+    .menu__bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .menu__bar ul {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    .tutor-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tutor-item {
+        width: 90%;
+        max-width: 400px;
+    }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Page</title>
+    <link href="/static/review.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="#">BRACU TUTOR</a></h1>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <div class="review-container">
+        <h2>Submit a Review</h2>
+        <form method="POST" action="/review">
+            <label for="tutor">Select Tutor:</label>
+            <select name="tutor_id" required>
+                <option value="">Select a tutor</option>
+                {% for tutor in tutors %}
+                    <option value="{{ tutor[0] }}">{{ tutor[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <textarea name="review" placeholder="Write your review..." required></textarea>
+            <br>
+            <button type="submit">Submit Review</button>
+        </form>
+        
+        <!-- Filter Reviews by Tutor -->
+        <h3>Filter Reviews by Tutor</h3>
+        <form method="GET" action="/review">
+            <label for="filter_tutor">Select Tutor:</label>
+            <select name="filter_tutor" id="filter_tutor" onchange="this.form.submit()">
+                <option value="">All Tutors</option> <!-- Empty value for all tutors -->
+                {% for tutor in tutors %}
+                    <option value="{{ tutor[0] }}" {% if tutor[0] == filter_tutor %} selected {% endif %}>{{ tutor[1] }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <h2>Previous Reviews</h2>
+        <ul class="review-list">
+            {% for r in reviews %}
+                <li><strong>{{ r[0] }} (Teacher: {{ r[2] }}):</strong> {{ r[1] }}</li>
+            {% else %}
+                <li>No reviews yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+</body>
+</html>

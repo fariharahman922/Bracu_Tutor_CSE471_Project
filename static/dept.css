@@ -1,0 +1,296 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/home.jpg'); 
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: block;  
+}
+
+/* Navigation Bar */
+.menu__bar {
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+.logo a {
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo a:hover {
+    color: white;
+}
+
+.menu__bar ul {
+    list-style: none;
+    display: flex;
+}
+
+.menu__bar ul li {
+    padding: 15px 15px;
+}
+
+.menu__bar ul li a {
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.menu__bar ul li a:hover {
+    color: white;
+    border-bottom: 2px solid rgb(30, 131, 219);
+}
+
+/* Logout Button with Reverse Hover */
+.logout-btn {
+    background: rgb(255, 255, 255);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid rgb(30, 131, 219);
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgb(0, 0, 0);
+}
+
+.container {
+  margin-top: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Individual department card styling */
+.card {
+    background: rgba(0, 0, 0, 0.7);
+
+    padding: 20px;
+    width: 280px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+    text-align: center;
+}
+
+/* Hover effect for the department card */
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Department card image styling */
+.card-image {
+    width: 100%;
+    height: 180px; /* Set a fixed height for the image */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+
+/* Department name */
+.card h2 {
+    font-size: 25px;
+    font-weight: bolder;
+    color: rgb(30, 131, 219);
+    margin-top: 15px;
+}
+
+/* Department description */
+.card p {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* Button inside the department card */
+.card button {
+    margin-top: 20px;
+    padding: 0;
+}
+
+/* Styling for the link inside the button */
+.card .btn {
+    text-decoration: none; /* Remove underline from the link */
+    background-color: rgb(30, 131, 219); /* Button color */
+    color: white;
+    padding: 12px 20px; /* Increase padding for better button size */
+    font-size: 16px; /* Font size */
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    width: 100%; /* Make button full-width */
+    text-align: center; /* Center text inside the button */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Hover effect transition */
+}
+
+/* Hover effect for the button */
+.card .btn:hover {
+    background-color: rgb(22, 105, 178); /* Darker blue on hover */
+    transform: translateY(-2px); /* Button lifts on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+}
+
+/* Active state for the button */
+.card .btn:active {
+    transform: scale(0.98); /* Slight scale-down effect on click */
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .container {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .card h2 {
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 13px;
+    }
+
+    .card .btn {
+        font-size: 14px;
+    }
+}
+
+/* Form Styling */
+.add-department-form {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.add-department-form h3 {
+    font-size: 24px;
+    color: rgb(30, 131, 219);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-box label {
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-box input, .input-box textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-box input:focus, .input-box textarea:focus {
+    border-color: rgb(30, 131, 219);
+    box-shadow: 0 0 5px rgba(30, 131, 219, 0.6);
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: rgb(30, 131, 219);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: rgb(22, 105, 178);
+    transform: translateY(-2px);
+}
+/* Button inside the department card */
+.card button {
+    margin-top: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the link inside the button */
+.card button a {
+    text-decoration: none; /* Remove underline from the link */
+    background-color: rgb(30, 131, 219); /* Button color */
+    color: white;
+    padding: 12px 20px; /* Increase padding for better button size */
+    font-size: 16px; /* Font size */
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    width: 100%; /* Make button full-width */
+    text-align: center; /* Center text inside the button */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Hover effect transition */
+}
+
+/* Hover effect for the button */
+.card button a:hover {
+    background-color: rgb(22, 105, 178); /* Darker blue on hover */
+    transform: translateY(-2px); /* Button lifts on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+}
+
+/* Active state for the button */
+.card button a:active {
+    transform: scale(0.98); /* Slight scale-down effect on click */
+}

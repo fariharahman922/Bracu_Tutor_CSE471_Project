@@ -1,0 +1,275 @@
+*{
+    margin: 0; padding: 0; text-decoration: none;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/home.jpg');
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.explore-btn {
+    background-color: rgb(13, 88, 153);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.explore-btn:hover {
+    background-color: rgb(16, 67, 112);
+}
+
+.menu__bar{
+    background-color: black; display: flex;
+    align-items: center; justify-content: space-between; padding: 5px 5px;
+    position:fixed; width: 100%; top:0;
+}
+
+.menu__bar {
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+.logo a {
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo a:hover {
+    color: white;
+}
+
+.menu__bar ul {
+    list-style: none;
+    display: flex;
+}
+
+.menu__bar ul li {
+    padding: 15px 15px;
+}
+
+.menu__bar ul li a {
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.menu__bar ul li a:hover {
+    color: white;
+    border-bottom: 2px solid rgb(30, 131, 219);
+}
+
+/* Logout Button with Reverse Hover */
+.logout-btn {
+    background: rgb(255, 255, 255);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid rgb(30, 131, 219);
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgb(0, 0, 0);
+}
+.explore-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 60px); 
+    text-align: center;
+}
+
+
+.explore-description {
+    margin-top: 10px; 
+    font-size: 15px;
+    color: rgb(27, 121, 204);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+}
+
+.home-description {
+    margin-bottom: 20px; 
+    font-size: 22px;
+    font-weight: bold;
+    max-width: 600px; 
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgb(27, 121, 204);
+}
+
+
+
+.widgets-container {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.widget {
+    background-color: rgba(230, 204, 197, 0.767);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.widget h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.widget p,
+.widget ul {
+    font-size: 18px;
+    color: black;
+}
+
+
+
+.calendar-widget span {
+    color: #1b79cc;
+    font-weight: bold;
+}
+
+
+.todo-widget ul {
+    list-style: none;
+    padding: 10px;
+    background-color: blanchedalmond;
+}
+
+.todo-widget li {
+    margin: 5px 10px;
+    background-color: wheat;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.todo-widget li a {
+color: rgb(30, 131, 219); 
+font-weight: bold;
+font-size: medium;
+}
+
+.main-content {
+    text-align: center; 
+    color: #1b79cc; 
+    margin-top: 100px; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+}
+
+.main-content h1 {
+    font-size: 30px; 
+    font-weight: bold;
+    margin-bottom: 20px; 
+}
+
+.main-content h2 {
+    font-size: 20px; 
+    font-weight: 500;
+    letter-spacing: 2px; 
+
+}
+
+
+
+
+/* ========================= */
+/* ==== Review Section ==== */
+/* ========================= */
+
+.review-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    margin-top: 100px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.review-container h2 {
+    margin-bottom: 20px;
+    color: rgb(13, 88, 153);
+    text-align: center;
+}
+
+.review-container textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 15px;
+}
+
+.review-container button[type="submit"] {
+    background-color: rgb(13, 88, 153);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.review-container button[type="submit"]:hover {
+    background-color: rgb(16, 67, 112);
+}
+
+.review-list {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+}
+
+.review-list li {
+    padding: 15px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid rgb(30, 131, 219);
+}
+
+.review-list li strong {
+    color: rgb(13, 88, 153);
+    display: block;
+    margin-bottom: 5px;
+}

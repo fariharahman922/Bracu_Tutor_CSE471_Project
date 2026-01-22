@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/static/profile.css">
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="/profile">PROFILE</a></h1>
+        <ul>
+            {% if session['role'] == 'student' %} 
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            {% endif %}
+            {% if session['role'] == 'tutor' %} 
+            <li><a href="/tutor_home">HOME</a></li> 
+            <li><a href="/profile">PROFILE</a></li>  
+            <li><a href="/view_booking">BOOKING</a></li>   
+            {% endif %}
+
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+    
+    <div class="profile-container">
+        <div class="profile-card">
+            {% if student %}
+            <h2>Student Information</h2>
+            <form method="POST">
+                <p><strong>Name:</strong> <input type="text" name="name" value="{{ student[0] }}"></p>
+                <p><strong>Department:</strong> <input type="text" name="department" value="{{ student[2] }}"></p>
+                <p><strong>Email:</strong> <input type="email" name="email" value="{{ student[3] }}"></p>
+                <p><strong>ID:</strong> {{ student[1] }}</p>
+                <p><strong>Password:</strong> <input type="password" name="password" value="{{ student[4] }}"></p>
+                <button type="submit">Update Profile</button>
+            </form>
+            <form method="POST" action="{{ url_for('delete_profile') }}">
+                <button type="submit" style="background-color: red; color: white;">Delete Profile</button>
+            </form>
+            {% endif %}
+
+            {% if tutor %}
+            <h2>Tutor Information</h2>
+            <form method="POST">
+                <p><strong>Name:</strong> <input type="text" name="name" value="{{ tutor[0] }}"></p>
+                <p><strong>Department:</strong> <input type="text" name="department" value="{{ tutor[2] }}"></p>
+                <p><strong>Email:</strong> <input type="email" name="email" value="{{ tutor[4] }}"></p>
+                <p><strong>ID:</strong> {{ tutor[1] }}</p>
+                <p><strong>Password:</strong> <input type="password" name="password" value="{{ tutor[6] }}"></p>
+                <p><strong>CGPA:</strong> <input type="text" name="cgpa" value="{{ tutor[3] }}"></p>
+                <p><strong>Per Hour Charge:</strong> <input type="number" name="per_hour_charge" value="{{ tutor[5] }}"></p>
+                <p><strong>Available Slot:</strong> <input type="text" name="available_slot" value="{{ tutor[7] }}"></p>
+                <button type="submit">Update Profile</button>
+            </form>
+            <form method="POST" action="{{ url_for('delete_profile') }}">
+                <button type="submit" style="background-color: red; color: white;">Delete Profile</button>
+            </form>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>
+

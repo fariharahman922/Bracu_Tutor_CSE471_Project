@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="static/register.css"/>
+
+</head>
+<body>
+  <div class="container">
+    <form class="registration-form" action="/register" method="POST">
+      <h2>Registration Form</h2>
+
+      <!-- User Type -->
+      <div class="form-group">
+        <label for="user">User Type</label>
+        <select id="user" name="user" required onchange="toggleFormFields()">
+          <option value="Student">Student</option>
+          <option value="Tutor">Teacher</option>
+        </select>
+      </div>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your full name"/>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email"/>
+      </div>
+
+      <!-- Department (multi-select, same as before) -->
+      <div class="form-group" id="department-group">
+        <label for="department">Department</label>
+        <div class="multi-select">
+          <div class="select-options" id="department">
+            <div class="select-option" onclick="toggleSelection('department','CSE')">CSE</div>
+            <div class="select-option" onclick="toggleSelection('department','BBA')">BBA</div>
+            <div class="select-option" onclick="toggleSelection('department','BIOTECHNOLOGY')">BIOTECHNOLOGY</div>
+            <div class="select-option" onclick="toggleSelection('department','ARCHITECTURE')">ARCHITECTURE</div>
+          </div>
+          <div id="department-box" class="selected-box"></div>
+        </div>
+        <input type="hidden" id="department-input" name="department"/>
+      </div>
+
+      <!-- Tutor-only: CGPA -->
+      <div class="form-group hidden" id="cgpa-group">
+        <label for="cgpa">CGPA</label>
+        <input
+          type="number"
+          id="cgpa"
+          name="cgpa"
+          step="0.01"
+          min="0"
+          max="4"
+          placeholder="e.g., 3.75"
+        />
+      </div>
+
+      <!-- Tutor-only: Charge -->
+      <div class="form-group hidden" id="charge-group">
+        <label for="charge">Charge (per hour)</label>
+        <input
+          type="number"
+          id="charge"
+          name="charge"
+          step="1"
+          min="0"
+          placeholder="e.g., 800 (BDT)"
+        />
+      </div>
+
+      <!-- Tutor-only: Offered Courses (text input, comma-separated) -->
+      <div class="form-group hidden" id="offered-courses-group">
+        <label for="offered_courses">Offered Course(s)</label>
+        <input
+          type="text"
+          id="offered_courses"
+          name="offered_courses"
+          placeholder="Enter courses, comma separated (e.g., DSA, Algorithms, Database)"
+        />
+      </div>
+
+      <!-- Tutor-only: Available Slot -->
+      <div class="form-group hidden" id="available-slot-group">
+        <label for="available_slot">Available Slot</label>
+        <input
+          type="text"
+          id="available_slot"
+          name="available_slot"
+          placeholder="e.g., Sat–Mon 6–8 PM; Wed 3–5 PM"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="form-group" id="password-group">
+        <label for="password">Create Password</label>
+        <input type="password" id="password" name="password" required placeholder="Create a password"/>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-group">
+        <button type="submit">Register</button>
+      </div>
+      <div class="sign-up-link">
+        <p>Do you want to Login? <a href="/login">Login</a></p>
+     </div>
+    </form>
+  </div>
+
+  <script>
+    // Handle Department chip selections
+    function toggleSelection(key, value) {
+      const box =
+        document.getElementById(`${key}-courses-box`) ||
+        document.getElementById(`${key}-box`);
+      const hidden =
+        document.getElementById(`${key}-courses-input`) ||
+        document.getElementById(`${key}-input`);
+
+      const list = (hidden.value || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      if (list.includes(value)) return;
+
+      const chip = document.createElement("span");
+      chip.classList.add("selected-option");
+      chip.textContent = value;
+
+      const del = document.createElement("span");
+      del.classList.add("delete-btn");
+      del.textContent = "×";
+      del.onclick = () => removeOption(key, chip, value);
+
+      chip.appendChild(del);
+      box.appendChild(chip);
+
+      list.push(value);
+      hidden.value = list.join(", ");
+    }
+
+    function removeOption(key, chipEl, value) {
+      const hidden =
+        document.getElementById(`${key}-courses-input`) ||
+        document.getElementById(`${key}-input`);
+
+      chipEl.remove();
+
+      const list = (hidden.value || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean)
+        .filter(v => v !== value);
+
+      hidden.value = list.join(", ");
+    }
+
+    // Toggle Tutor-only fields
+    function toggleFormFields() {
+      const userType = document.getElementById("user").value;
+      const isTutor = userType === "Tutor";
+
+      const groups = [
+        "cgpa-group",
+        "charge-group",
+        "offered-courses-group",
+        "available-slot-group"
+      ];
+
+      groups.forEach(id => {
+        const groupEl = document.getElementById(id);
+        if (!groupEl) return;
+
+        groupEl.style.display = isTutor ? "block" : "none";
+        groupEl.classList.toggle("hidden", !isTutor);
+
+        const fieldInput = groupEl.querySelector("input");
+        if (fieldInput) {
+          fieldInput.required = isTutor;
+          if (!isTutor) fieldInput.value = "";
+        }
+      });
+    }
+
+    window.onload = toggleFormFields;
+  </script>
+</body>
+</html>

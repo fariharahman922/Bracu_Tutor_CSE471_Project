@@ -1,0 +1,275 @@
+*{
+    margin: 0; padding: 0; text-decoration: none;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/home.jpg');
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.explore-btn {
+    background-color: rgb(13, 88, 153);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.explore-btn:hover {
+    background-color: rgb(16, 67, 112);
+}
+
+.menu__bar{
+    background-color: black; display: flex;
+    align-items: center; justify-content: space-between; padding: 5px 5px;
+    position:fixed; width: 100%; top:0;
+}
+
+.menu__bar {
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+.logo a {
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo a:hover {
+    color: white;
+}
+
+.menu__bar ul {
+    list-style: none;
+    display: flex;
+}
+
+.menu__bar ul li {
+    padding: 15px 15px;
+}
+
+.menu__bar ul li a {
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.menu__bar ul li a:hover {
+    color: white;
+    border-bottom: 2px solid rgb(30, 131, 219);
+}
+
+/* Logout Button with Reverse Hover */
+.logout-btn {
+    background: rgb(255, 255, 255);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid rgb(30, 131, 219);
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgb(0, 0, 0);
+}
+
+
+/* ###################################### */
+/* Styling for the review container */
+.review-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Light transparent background for readability */
+    padding: 40px;
+    border-radius: 15px;
+    width: 60%; /* Adjust the width as needed */
+    max-width: 800px; /* Ensure it doesn't stretch too wide */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 80px; /* To account for the fixed navbar */
+    text-align: center;
+}
+
+/* Title for the Review Section */
+.review-container h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(13, 88, 153);
+    margin-bottom: 20px;
+}
+
+/* Form inputs */
+.review-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-container select, .review-container textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 100%;
+}
+
+.review-container select:focus, .review-container textarea:focus {
+    border-color: rgb(13, 88, 153);
+    outline: none;
+}
+
+/* Review button */
+.review-container button {
+    background-color: rgb(13, 88, 153);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-container button:hover {
+    background-color: rgb(16, 67, 112);
+}
+
+/* Horizontal rule styling */
+.review-container hr {
+    border: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+/* Styling for Previous Reviews */
+.review-container .review-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.review-container .review-list li {
+    background-color: #f9f9f9;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+
+.review-container .review-list li strong {
+    font-weight: 600;
+    color: rgb(13, 88, 153);
+}
+
+/* Empty state when there are no reviews */
+.review-container .review-list li.no-reviews {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+}
+
+
+/* #################################### */
+/* dashboard.css */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.menu__bar {
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+.menu__bar ul {
+    list-style: none;
+    display: flex;
+}
+
+.menu__bar ul li {
+    padding: 15px 15px;
+}
+
+.menu__bar ul li a {
+    color: rgb(30, 131, 219);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.menu__bar ul li a:hover {
+    color: white;
+    border-bottom: 2px solid rgb(30, 131, 219);
+}
+
+/* Dashboard container */
+.student-dashboard-container {
+    margin-top: 80px;
+    padding: 30px;
+    text-align: center;
+}
+
+.student-dashboard-container h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* Stats cards */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stats-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.stats-card p {
+    font-size: 36px;
+    color: #1E6FB1;
+    font-weight: bold;
+}

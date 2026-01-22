@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Tutor</title>
+    <link rel="stylesheet" href="/static/tutor.css">
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="/course.html">COURSES</a></h1>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <section class="tutor-section">
+        <h2>BOOKED TUTORS</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <div class="tutor-list">
+            {% for tutor in tutors %}
+            <div class="tutor-item">
+                <h3>{{ tutor.name }}</h3>
+                <p>Per Hour Charge: ${{ tutor.per_hour_charge }}</p>
+                <p>Booking date: {{ tutor.booking_date }}</p>
+                <p>Status: {{ tutor.status }}</p>
+                {% if tutor.status == "Pending" %}
+                <a href="{{ url_for('pay_booking', id=tutor.booking_id) }}">
+                    <button class="course-button">Pay Now</button>
+                </a>
+                <a href="{{ url_for('student_cancel_booking', id=tutor.booking_id) }}">
+                    <button class="course-button">Cancel Booking</button>
+                </a>
+                {% endif %}
+                {% if tutor.status != "Cancelled" %}
+                <button class="course-button" onclick="openChat({{ tutor.booking_id }}, '{{ tutor.name }}')">Chat</button>
+                {% endif %}
+            </div>
+            {% else %}
+                <p>No tutors available.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Template for chat window -->
+    <template id="chat-template">
+    <div class="chat-box" style="
+        position: fixed; 
+        bottom: 20px; 
+        right: 20px;
+        width: 320px; 
+        height: 420px;
+        border-radius: 12px;
+        border: 1px solid #ddd; 
+        background: #fdfdfd;
+        display: flex; 
+        flex-direction: column;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    ">
+        
+        <!-- Header -->
+        <div class="chat-header" style="
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            padding: 12px; 
+            font-weight: bold; 
+            font-size: 16px;
+            color: white;
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        ">
+            <span>Chat</span>
+            <span class="close-btn" style="
+                cursor: pointer; 
+                font-size: 18px; 
+                font-weight: bold;
+            ">✖</span>
+        </div>
+        
+        <!-- Messages area -->
+        <div class="chat-messages" style="
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 12px; 
+            font-size: 14px; 
+            background: #f7f9fc;
+        "></div>
+        
+        <!-- Input bar -->
+        <div style="
+            display: flex; 
+            border-top: 1px solid #ddd; 
+            background: #fff;
+            padding: 8px;
+        ">
+            <input type="text" class="chat-input" placeholder="Type a message..." style="
+                flex: 1; 
+                padding: 10px; 
+                border: 1px solid #ccc; 
+                border-radius: 20px; 
+                outline: none;
+                font-size: 14px;
+            ">
+            <button class="send-btn" style="
+                margin-left: 8px;
+                background: #4facfe; 
+                color: white; 
+                border: none; 
+                padding: 10px 16px; 
+                border-radius: 50%; 
+                cursor: pointer; 
+                font-size: 14px;
+                transition: background 0.3s;
+            ">➤</button>
+        </div>
+    </div>
+    </template>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+        var senderType = "student";  // or "tutor" depending on login
+        var openChats = {}; // bookingId -> chat DOM
+        var pendingMessages = {}; // store messages for closed chats
+
+        function openChat(bookingId, tutorName){
+            if(openChats[bookingId]) {
+                openChats[bookingId].style.zIndex = Date.now();
+                return;
+            }
+
+            // Clone chat box template
+            let template = document.getElementById("chat-template").content.cloneNode(true);
+            let chatBox = template.querySelector(".chat-box");
+            let header = chatBox.querySelector(".chat-header");
+            let messagesDiv = chatBox.querySelector(".chat-messages");
+            let input = chatBox.querySelector(".chat-input");
+            let sendBtn = chatBox.querySelector(".send-btn");
+            let closeBtn = chatBox.querySelector(".close-btn");
+
+            header.firstChild.textContent = "Chat with " + tutorName;
+
+            closeBtn.onclick = () => {
+                chatBox.remove();
+                delete openChats[bookingId];
+            };
+
+            sendBtn.onclick = () => {
+                let msg = input.value.trim();
+                if(!msg) return;
+                socket.emit("message", {booking_id: bookingId, sender_type: senderType, msg: msg});
+                input.value = "";
+            };
+
+            document.body.appendChild(chatBox);
+            openChats[bookingId] = chatBox;
+
+            // Join this booking room
+            socket.emit("join", {booking_id: bookingId});
+
+            // Load old messages
+            fetch(`/chat_history/${bookingId}`)
+            .then(res => res.json())
+            .then(data => {
+                messagesDiv.innerHTML = "";
+                data.messages.forEach(m => {
+                    appendMessage(messagesDiv, m.sender_type, m.message, m.sender_type === senderType);
+                });
+
+                // Show any pending messages
+                if(pendingMessages[bookingId]) {
+                    pendingMessages[bookingId].forEach(m => {
+                        appendMessage(messagesDiv, m.sender_type, m.message, m.sender_type === senderType);
+                    });
+                    delete pendingMessages[bookingId];
+                }
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        function appendMessage(container, sender, msg, isSelf){
+            let align = isSelf ? "right" : "left";
+            let color = isSelf ? "#DCF8C6" : "#EAEAEA";
+            container.innerHTML += `<div style="text-align:${align}; margin:5px;">
+                <span style="background:${color}; padding:5px 10px; border-radius:10px; display:inline-block; max-width:80%;">
+                    ${msg}
+                </span>
+            </div>`;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Listen for incoming messages
+        socket.on("new_message", function(data){
+            let {booking_id, sender_type, message} = data;
+            if(openChats[booking_id]) {
+                let messagesDiv = openChats[booking_id].querySelector(".chat-messages");
+                appendMessage(messagesDiv, sender_type, message, sender_type === senderType);
+            } else {
+                if(!pendingMessages[booking_id]) pendingMessages[booking_id] = [];
+                pendingMessages[booking_id].push({ sender_type, message });
+            }
+        });
+
+        // Auto-join all student booking rooms
+        {% for tutor in tutors %}
+        socket.emit("join", {booking_id: {{ tutor.booking_id }} });
+        {% endfor %}
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <style>
+        #chat-box {
+            width: 400px; height: 300px; border: 1px solid #ccc;
+            overflow-y: scroll; margin-bottom: 10px; padding: 5px;
+        }
+        #chat-box p { margin: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Chat Room for Booking {{ booking_id }}</h2>
+
+    <div id="chat-box">
+        {% for sender, msg, time in messages %}
+            <p><b>{{ sender }}:</b> {{ msg }} <small>{{ time }}</small></p>
+        {% endfor %}
+    </div>
+
+    <input id="msg" type="text" placeholder="Type a message">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        var socket = io();
+        var booking_id = "{{ booking_id }}";
+        var sender_type = "{{ 'student' if 's_id' in session else 'tutor' }}";  // server can inject properly
+
+        socket.emit("join", {booking_id: booking_id});
+
+        socket.on("new_message", function(data){
+            var chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += "<p><b>" + data.sender + ":</b> " + data.msg + "</p>";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        function sendMessage(){
+            var msg = document.getElementById("msg").value;
+            socket.emit("message", {booking_id: booking_id, sender_type: sender_type, msg: msg});
+            document.getElementById("msg").value = "";
+        }
+    </script>
+</body>
+</html>

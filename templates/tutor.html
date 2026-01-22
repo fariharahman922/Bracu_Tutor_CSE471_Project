@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/tutor.css">
+    <title>BRACU TUTOR</title>
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="/tutor">TUTORS</a></h1>
+        <form action="{{ url_for('search_tutors') }}" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Search tutors by name, course_code..." required>
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <section class="tutor-section">
+        <h2>Available Tutors</h2>
+        <div class="tutor-list">
+            {% for tutor in tutor %}
+            <div class="tutor-item">
+                <h3>NAME: {{ tutor[0] }} <br> TUTOR ID: {{ tutor[1] }} <br> DEPARTMENT: {{ tutor[2] }} <br> CGPA: {{ tutor[3] }} <br> Email: {{ tutor[4] }}<br> PER HOUR CHARGE:{{ tutor[5] }}</h3>
+                <p><strong>Available Slots:</strong> {{ tutor[6] or 'N/A' }} </p>
+                <p><strong>Offered Courses:</strong> {{ tutor[7] or 'N/A' }} </p>     
+                <form action="/book_tutor_page" method="POST">
+                    <input type="hidden" name="t_id" value="{{ tutor[1] }}">
+                    <button type="submit" class="book-btn">BOOK NOW</button>
+                </form>
+                   
+            </div>
+            {% else %}
+            <p>NO TUTOR FOUND.</p>
+            {% endfor %}
+        </div>
+    </section>
+</body>
+</html>

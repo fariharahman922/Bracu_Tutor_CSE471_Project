@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/dept.css"> 
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="#">DEPARTMENTS</a></h1>
+        <ul>
+            <li><a href="/admin_home">HOME</a></li>
+            <li><a href="/admin_dept">DEPARTMENTS</a></li>
+            <li><a href="/admin_course">COURSES</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+    <section class="container">
+        <!-- Loop through the departments and display them dynamically -->
+        {% for dept in departments %}
+            <div class="card">
+                <div class="card-image" id="{{ dept[0] }}" style="background-image: url('{{ dept[3] }}');"></div>
+                <h2>{{ dept[1] }}</h2>
+                <p>{{ dept[2] }}</p>
+            </div>
+        {% else %}
+            <p>No departments available at the moment.</p>
+        {% endfor %}
+    </section>
+    <section class="add-department-form">
+        <h3>Add New Department</h3>
+        <form method="POST" action="/add_department">
+            <div class="input-box">
+                <label for="department_name">Department Name</label>
+                <input type="text" name="department_name" id="department_name" required>
+            </div>
+            <div class="input-box">
+                <label for="department_id">Department ID</label>
+                <input type="text" name="department_id" id="department_id" required>
+            </div>
+            <div class="input-box">
+                <label for="department_description">Department Description</label>
+                <textarea name="department_description" id="department_description" rows="4" required></textarea>
+            </div>
+            <div class="input-box">
+                <label for="image_path">Department Image Path</label>
+                <input type="text" name="image_path" id="image_path" placeholder="Static/imagename.filetype" required>
+            </div>
+            <button type="submit" class="submit-btn">Add Department</button>
+        </form>
+    </section>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="/static/review.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="menu__bar">
+        <h1 class="logo"><a href="#">BRACU TUTOR</a></h1>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="/tutor">TUTORS</a></li>
+            <li><a href="/dept">DEPARTMENTS</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+            <li><a href="/booking">BOOKING</a></li>
+            <li><a href="/review">REVIEW</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+            <li><a href="/logout" class="logout-btn">LOGOUT</a></li>
+        </ul>
+    </nav>
+
+    <div class="student-dashboard-container">
+        <h2>Student Dashboard</h2>
+
+        <div class="stats-container">
+            <div class="stats-card">
+                <h3>Total Tutors</h3>
+                <p>{{ num_tutors }}</p>
+            </div>
+
+            <div class="stats-card">
+                <h3>Total Courses</h3>
+                <p>{{ num_courses }}</p>
+            </div>
+
+            <div class="stats-card">
+                <h3>Total Departments</h3>
+                <p>{{ num_departments }}</p>
+            </div>
+
+            <div class="stats-card">
+                <h3>Total Students</h3>
+                <p>{{ num_students }}</p>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
