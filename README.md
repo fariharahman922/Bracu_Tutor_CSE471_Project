@@ -1,11 +1,4 @@
-**Repository Title:**
-`bracu-tutor-cse471`
 
----
-
-**README.md:**
-
-````markdown
 # Bracu Tutor - CSE471 Project
 
 This repository contains the **Bracu Tutor** system, an academic project developed for **CSE471: System Analysis and Design**. The platform is an online tutor management system that facilitates student-tutor interaction, booking, and feedback collection.
